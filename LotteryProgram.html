@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>圆盘抽奖</title>
+<style>
+
+
+	*.{margin:0;padding:0;}
+	#elm1{height:100px;}
+	#elm2{height:200px;}
+	#wrap{position:relative;height:400px;}
+	#bg{position:absolute;left:0;top:0;}
+	#cell{position:absolute;left:0;top:0;}
+	
+	#control{position:absolute;
+		left:430px;
+		top:10px;
+		font-size:140px; 
+		font-family:"Microsoft Yahei","微软雅黑";
+		background-color: "#FFBDBD";
+		padding: 0 200px;
+		font-weight: 900;
+		cursor:pointer;
+		border-radius: 5px;
+		text-decoration:none;
+		color:#F3AF00;
+
+		text-shadow: 0 3px 0 #D6FF00, 
+		0 2px 0 #c9c9c9, 
+		0 3px 0 #bbb, 
+		0 4px 0 #b9b9b9, 
+		0 5px 0 #aaa, 
+		0 6px 1px rgba(0,0,0,.1), 
+		0 0 5px rgba(0,0,0,.1), 
+		0 1px 3px rgba(0,0,0,.3), 
+		0 3px 5px rgba(0,0,0,.2), 
+		0 5px 10px rgba(0,0,0,.25), 
+		0 10px 10px rgba(0,0,0,.2), 
+		0 20px 20px rgba(0,0,0,.15);
+/*		
+		text-shadow: 0 0 10px #f0f,
+                   0 0 20px #f0e,
+                   0 0 30px #f0e,
+                   0 0 40px #ff00de,
+                   0 0 70px #ff00de,
+                   0 0 80px #ff00de,
+                   0 0 100px #ff00de,
+                   0 0 150px #ff00de;
+*/		
+		
+    }
+
+	#show{position:absolute;
+		left:20px;
+		top:515px;
+		font-size:120px;
+		background-color: "#FFBDBD";
+	    font-family:"Microsoft Yahei","微软雅黑";
+	    font-weight: 900;
+	    color:#f00;
+	    border-radius: 5px;
+		/*
+		text-shadow: 0 1px 0 #ccc, 
+		0 2px 0 #c9c9c9, 
+		0 3px 0 #bbb, 
+		0 4px 0 #b9b9b9, 
+		0 5px 0 #aaa, 
+		0 6px 1px rgba(0,0,0,.1), 
+		0 0 5px rgba(0,0,0,.1), 
+		0 1px 3px rgba(0,0,0,.3), 
+		0 3px 5px rgba(0,0,0,.2), 
+		0 5px 10px rgba(0,0,0,.25), 
+		0 10px 10px rgba(0,0,0,.2), 
+		0 20px 20px rgba(0,0,0,.15);
+		*/
+		
+		text-shadow: 
+					0px -3px 10px #E7FC00, 
+                    0px 3px 10px #FF8500;
+				/*
+				   0 0 10px #f0f,
+                   0 0 20px #f0f,
+                   0 0 30px #f0f,
+                   0 0 40px #fde,
+                   0 0 70px #fe,
+                   0 0 80px #fde,
+                   0 0 100px #fde,
+                   0 0 150px #fde;
+				*/
+				   
+
+    }
+
+    header{
+    	position:absolute;
+		left:20px;
+		top:30px;
+		font-size:40px;
+		background-color: "#FFBDBD";
+	    font-family:"Microsoft Yahei","微软雅黑";
+	    font-weight: 900;
+	    color:#f00;
+	    border-radius: 5px;
+		text-shadow: 0 0 10px #fff,
+                   0 0 20px #fff,
+                   0 0 30px #fff,
+                   0 0 40px #ff00de,
+                   0 0 70px #ff00de,
+                   0 0 80px #ff00de,
+                   0 0 100px #ff00de,
+                   0 0 150px #ff00de;
+				   
+		/* CSS3 Transition Effect */ 
+		-webkit-transition: all 0.12s ease-out; /* Safari & Chrome */ 
+    }
+	
+	body{
+		background-color:#FF0;
+		background-image: url(bg.jpg); 
+		background-repeat: no-repeat;
+		background-positon: 100%, 100%;
+		background-size: cover;
+	}
+	
+	#start,#end{
+			    display: inline-block;
+				zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+				*display: inline;
+				vertical-align: baseline;
+				margin: 0 2px;
+				outline: none;
+				cursor: pointer;
+				text-align: center;
+				text-decoration: none;
+				font: 80px/100% sans-serif;
+				font-family: "Microsoft Yahei","微软雅黑";
+				font-weight: 900;
+				padding: .5em 1em .55em;
+				text-shadow: 0 1px 1px rgba(0,0,0,.3);
+				-webkit-border-radius: .5em; 
+				-moz-border-radius: .5em;
+				border-radius: .5em;
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+				-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+				box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	}
+			
+</style>
+
+</head>
+<body>
+<!-- <img src="bg.jpg" width="100%" height="100%" style="z-index:-1" /> -->
+<header>琉璃月珠宝真情回馈消费者（F5刷新页面，再次点击“抽奖”）</header>
+
+<div id='elm1'></div>
+<div id='wrap'>
+	<canvas id='bg'></canvas>
+	<canvas id='cell'></canvas>
+	<div id='control'>
+		<div id='start'>抽奖</div>
+		<div id='end'>停止</div>
+	</div>
+</div>
+
+<div id='show'></div>
+<div id='elm2'></div>
+
+<script type="text/javascript">
+var field = [[0,72],[72,144],[144,216],[216,288],[288,360]]
+    ,fillStyle = [ "#FF8484", "#A5A1FF", "#A6FFA6", "#CE52F8", "#50BEFA"]
+	,width = 400
+	,height = 400
+	,c_x = 200
+	,c_y =200
+	,radius = 200
+	,radius_2 = 20
+	,dom_bg = document.getElementById('bg')
+	,dom_cell = document.getElementById('cell')
+	,index =0
+	,timer = null
+	,stop = false
+	,running = false
+	,speed = 300
+	,flag = false
+	,stepall
+	,stepfast = 7
+	,stepslow
+	,stepping =0
+	,selected
+	,pos
+	,R={'selected':Math.floor(Math.random()*4),'index':4};
+var selected_text='';
+
+//document.onmousedown=mouseclick;
+
+function mouseclick(ev) 
+{
+ 
+	p0={'x0':251,'y0':312,'x1':363,'y1':427};
+	p1={'x0':128,'y0':372,'x1':218,'y1':479};
+	p2={'x0':22, 'y0':248,'x1':118,'y1':367};
+	p3={'x0':116,'y0':134,'x1':219,'y1':241};
+	p4={'x0':251,'y0':182,'x1':378,'y1':300};
+ 
+	ev=ev || window.event;
+ 
+	x=getMousePos(ev).x;
+	y=getMousePos(ev).y;
+	
+	//alert(x+' , '+y);
+ 	//R.selected = Math.floor(Math.random() * 4); // 默认随机生成	
+	//alert("A:" + R.selected );
+if ( (x >=0 && x <= 400) && ( y >=100 & y <= 500) ){	
+	
+	
+	if( (x >= p0.x0 && x <= p0.x1) && ( y >= p0.y0 && y <= p0.y1 ) ){
+		R.selected = 0;
+		R.index = 0;
+	}
+	
+	if( (x >= p1.x0 && x <= p1.x1) && ( y >= p1.y0 && y <= p1.y1 ) ){
+		R.selected = 1;
+		R.index = 1;
+	}
+	
+	if( (x >= p2.x0 && x <= p2.x1) && ( y >= p2.y0 && y <= p2.y1 ) ){
+		R.selected = 2;
+		R.index = 2;
+	}
+	
+	if( (x >= p3.x0 && x <= p3.x1) && ( y >= p3.y0 && y <= p3.y1 ) ){
+		R.selected = 3;
+		R.index = 3;
+	}
+	
+	if( (x >= p4.x0 && x <= p4.x1) && ( y >= p4.y0 && y <= p4.y1 ) ){
+		R.selected = 4;
+		R.index = 4;
+	}
+}
+	//alert("B:" + R.selected ); 
+} 
+
+function getMousePos(ev) { 
+	var e = ev || window.event; 
+	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft; 
+	var scrollY = document.documentElement.scrollTop || document.body.scrollTop; 
+	var x = e.pageX || e.clientX + scrollX; 
+	var y = e.pageY || e.clientY + scrollY; 
+	 
+	return { 'x': x, 'y': y }; 
+}
+
+function setup(){
+	drawBg();
+}
+function drawBg(){
+	var deg = Math.PI/180;
+	var tmp_1 = 0;
+	var tmp_2 = 72;
+	dom_bg.height = height;
+	dom_bg.width = width;
+	var ctx=dom_bg.getContext('2d');
+
+	for(var i=0;i<5;i++){
+		ctx.beginPath();
+		ctx.fillStyle = fillStyle[i];
+		ctx.moveTo(c_x,c_y);
+		ctx.arc(c_x,c_y,radius,deg*tmp_1,deg*tmp_2,false);
+		ctx.fill();
+		ctx.fillStyle = '#e00';
+
+		var tmp_1_Text='';
+        switch(tmp_1){
+        	case 0:
+        		tmp_1_Text="特等奖";
+        		break;
+        	case 72:
+        		tmp_1_Text="一等奖";
+        		break;
+        	case 144:
+        		tmp_1_Text="二等奖";
+        		break;
+        	case 216:
+        		tmp_1_Text="三等奖";
+        		break;
+        	case 288:
+        		tmp_1_Text="谢谢惠顾";
+        		break;
+        }
+        ctx.font="20px 微软雅黑";
+
+        var c=document.getElementById("cell");
+        var gradient=ctx.createLinearGradient(0,0,c.width,0);
+		gradient.addColorStop("0","yellow");
+		gradient.addColorStop("0.5","red");
+		gradient.addColorStop("1.0","yellow");
+		// 用渐变填色
+		ctx.fillStyle=gradient;
+	    ctx.fillText( tmp_1_Text,  200+Math.cos(deg*(tmp_1+15))*130, 200+Math.sin(deg*(tmp_1+15))*130 );
+	
+		tmp_1 +=72;
+		tmp_2 +=72;
+	}
+}
+
+function drawBgText(){	
+	ctx.fillStyle = '#e00';
+	ctx.beginPath();
+	ctx.moveTo(c_x,c_y);
+	ctx.arc(c_x,c_y,radius_2,0,360,false);
+	ctx.fill();
+}
+
+function rotate(){
+	if(!flag && stepping>7){
+		clearTimer();
+		speed = 100;
+		timer = setInterval(rotate,speed);
+	}
+	if(flag && stepping > stepslow && stepping <stepall){
+		clearTimer();
+		speed = 300;
+		timer = setInterval(rotate,speed);
+	}
+	if(index == 5){
+		index = 0;
+	}
+	if(flag && stepping == stepall){
+		clearTimer();
+		happy();
+	}
+	drawCell();
+	index++;
+	stepping++;
+}
+function drawCell(){
+	var deg = Math.PI/180;
+	var tmp_1 = field[index][0];
+	var tmp_2 = field[index][1];
+	dom_cell.height=height;
+	dom_cell.width =width;
+	var ctx=dom_cell.getContext('2d');
+	ctx.beginPath();
+	ctx.fillStyle = '#ff0';
+	ctx.moveTo(c_x,c_y);
+	ctx.arc(c_x,c_y,radius,deg*tmp_1,deg*tmp_2,false);
+	ctx.fill();
+}
+function createStop(){
+
+	//selected = Math.floor(Math.random() * 4);         //从0-4个数字中随机选择, 想怎么在这控制一下。
+	selected = R.selected;  
+    //alert("C: " + selected );
+	//selected =2 ;
+	
+	
+	
+	var circle = Math.floor(Math.random() * 3) + 2;
+	var c_step = circle * 5;
+	var actualIndex = stepping%5;
+	stepall =  selected - actualIndex + c_step;
+	flag = true;
+	stepslow = stepall - 7;
+	stepping = 0;
+}
+function happy(){	
+
+	switch(selected){
+		case 0:
+			selected_text="恭喜您，中了特等奖！";
+			break;
+		case 1:
+			selected_text="恭喜您，中了一等奖！";
+			break;
+		case 2:
+			selected_text="恭喜您，中了二等奖！";
+			break;
+		case 3:
+			selected_text="恭喜您，中了三等奖！";
+			break;
+		case 4:
+			selected_text="谢谢惠顾！";
+			break;
+    }
+	document.getElementById("show").innerText = selected_text ;
+}
+
+function startClick(){
+	if(running){
+		return;
+	}
+	running= true;
+	timer = setInterval(rotate,speed);
+}
+
+function endClick(){
+	if( stop || (!running )){
+		return;
+	}
+	stop = true;
+	clearTimer();	
+	createStop();	
+	timer = setInterval(rotate,speed);
+}
+function clearTimer(){
+	clearInterval(timer);
+	timer = null;
+}
+
+
+function StartMain(){
+	document.getElementById('start').addEventListener('click',startClick,false);
+}
+/*
+function StopMain(){
+	document.getElementById('start').addEventListener('click',startClick,false);
+}*/
+
+document.onmousedown=mouseclick;
+
+document.getElementById('start').addEventListener('click',startClick,false);
+document.getElementById('end').addEventListener('click',endClick,false);
+
+setup();
+//StartMain();
+//StopMain();
+
+
+</script>
+</body>
+</html>
